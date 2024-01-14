@@ -9,7 +9,7 @@ const generateToken = (res, userId) => {
   
   res.cookie('auth', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV !== 'development',
+    secure: true,
     sameSite: 'None',
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
@@ -67,6 +67,7 @@ const signUpUser = asyncHandler(async (req, res) => {
 const signOutUser = (req, res) => {
   res.cookie('auth', '', {
     httpOnly: true,
+    secure: true,
     expires: new Date(0),
     sameSite: 'None'
   });
@@ -128,7 +129,9 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   res.cookie('auth', '', {
     httpOnly: true,
-    expires: new Date(0)
+    secure: true,
+    expires: new Date(0),
+    sameSite: 'None'
   });
 
   res.status(204).json({

@@ -4,7 +4,7 @@ import User from '../models/user.js';
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token = req.cookies.auth;
-  
+
   if(token){
     try {
       const decoded = jwt.verify(token, process.env.SECRET);

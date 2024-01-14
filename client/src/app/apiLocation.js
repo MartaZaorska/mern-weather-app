@@ -8,13 +8,15 @@ const apiLocation = api.injectEndpoints({
       query: (data) => ({
         url: `${LOCATION_URL}`,
         body: data,
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include'
       })
     }),
     deleteLocation: builder.mutation({
       query: (id) => ({
         url: `${LOCATION_URL}/${id}`,
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
     })
   })

@@ -6,11 +6,11 @@ const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.SECRET, {
     expiresIn: '30d'
   });
-
+  
   res.cookie('auth', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== 'development',
-    sameSite: 'strict',
+    sameSite: 'None',
     maxAge: 30 * 24 * 60 * 60 * 1000
   });
 }
@@ -22,6 +22,7 @@ const signInUser = asyncHandler(async (req, res) => {
 
   if(user && (await user.checkPassword(password))){
     generateToken(res, user._id);
+    
     res.json({
       _id: user._id,
       email: user.email,

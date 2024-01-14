@@ -8,36 +8,44 @@ const apiUser = api.injectEndpoints({
       query: (data) => ({
         url: `${USER_URL}/signin`,
         method: 'POST',
-        body: data
+        body: data,
+        credentials: 'include'
       })
     }),
     signup: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/signup`,
         method: 'POST',
-        body: data
+        body: data,
+        credentials: 'include'
       })
     }),
     logout: builder.mutation({
       query: () => ({
         url: `${USER_URL}/signout`,
-        method: 'POST'
+        method: 'POST',
+        credentials: 'include'
       })
     }),
     getProfile: builder.query({
-      query: () => `${USER_URL}/profile`
+      query: () => ({
+        url: `${USER_URL}/profile`,
+        credentials: 'include'
+      })
     }),
     updateProfile: builder.mutation({
       query: (data) => ({
         url: `${USER_URL}/profile`,
         method: 'PUT',
-        body: data
+        body: data,
+        credentials: 'include'
       })
     }),
     deleteProfile: builder.mutation({
       query: () => ({
         url: `${USER_URL}/profile`,
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
     })
   })

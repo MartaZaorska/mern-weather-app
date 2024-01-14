@@ -5,7 +5,6 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders(headers) {
     return headers;
   },
-  credentials: "include"
 });
 
 const api = createApi({

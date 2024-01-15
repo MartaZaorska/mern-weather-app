@@ -10,7 +10,7 @@ export function Component(){
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
-  const [signUp] = useSignupMutation();
+  const [signUp, { isLoading }] = useSignupMutation();
 
   const signUpHandler = useCallback(async (data) => {
     setError("");
@@ -21,13 +21,14 @@ export function Component(){
 
       dispatch(setUser({...res}));
     }catch(err){
-      setError("Nieprawidłowy dane");
+      const errorMessage = err?.data?.message || "Nieprawidłowe dane";
+      setError(errorMessage);
     }
   }, []);
 
   return (
     <section className="form__wrapper">
-      <Form submitHandler={signUpHandler} error={error} title="Rejestracja" buttonTitle="Utwórz konto" withUsername requirePassword />
+      <Form submitHandler={signUpHandler} isLoading={isLoading} error={error} title="Rejestracja" buttonTitle="Utwórz konto" withUsername requirePassword />
       <p className="form__message">
         Posiadasz już konto? <Link to="/auth">Przejdź do logowania</Link>
       </p>

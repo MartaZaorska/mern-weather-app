@@ -32,7 +32,7 @@ const signInUser = asyncHandler(async (req, res) => {
     });
   }else{
     res.status(401);
-    throw new Error("Invalid data");
+    throw new Error("Nieprawidłowe dane");
   }
 });
 
@@ -42,7 +42,7 @@ const signUpUser = asyncHandler(async (req, res) => {
   
   if(userExists){
     res.status(400);
-    throw new Error("User already exists");
+    throw new Error("Użytkownik o podanym adresie e-mail już istnieje.");
   }
 
   const user = await User.create({
@@ -51,7 +51,7 @@ const signUpUser = asyncHandler(async (req, res) => {
 
   if(!user){
     res.status(400);
-    throw new Error("Invalid user data");
+    throw new Error("Nieprawidłowe dane");
   }
   
   generateToken(res, user._id);
@@ -82,7 +82,7 @@ const getUser = asyncHandler(async (req, res) => {
   
   if(!user){
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Nie istnieje użytkownik o podanym adresie e-mail");
   }
 
   res.json({
@@ -99,10 +99,19 @@ const updateUser = asyncHandler(async (req, res) => {
 
   if(!user){
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Nie istnieje użytkownik o podanym adresie e-mail");
   }
 
   const { username, email, unit, password } = req.body;
+
+  if(email){
+    const userExists = await User.findOne({ email });
+  
+    if(userExists){
+      res.status(400);
+      throw new Error("Użytkownik o podanym adresie e-mail już istnieje.");
+    }
+  }
 
   user.username = username || user.username;
   user.email = email || user.email;

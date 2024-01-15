@@ -19,14 +19,14 @@ const addLocation = asyncHandler(async (req, res) => {
 
   if(!user){
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Nie istnieje użytkownik o podanym adresie e-mail");
   }
 
   const location = await getLocation(req.body);
 
   if(!location){
     res.status(400);
-    throw new Error("Invalid location data");
+    throw new Error("Nieprawidłowe dane");
   }
 
   user.locations = [ ...user.locations, location._id ];
@@ -42,7 +42,7 @@ const deleteLocation = asyncHandler(async (req, res) => {
 
   if(!user){
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Nie istnieje użytkownik o podanym adresie e-mail");
   }
 
   user.locations = [ ...user.locations ].filter(location => String(location) !== String(req.params.id));

@@ -10,7 +10,7 @@ export function Component(){
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
-  const [login] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const signInHandler = useCallback(async (data) => {
     setError("");
@@ -21,14 +21,14 @@ export function Component(){
       
       dispatch(setUser({...res}));
     }catch(err){
-      console.log('SignIn_signInHandler_', err);
-      setError("Nieprawidłowy adres email lub hasło");
+      const errorMessage = err?.data?.message || "Nieprawidłowe dane";
+      setError(errorMessage);
     }
   }, []);
 
   return (
     <section className="form__wrapper">
-      <Form submitHandler={signInHandler} error={error} title="Logowanie" buttonTitle="Zaloguj się" requirePassword />
+      <Form submitHandler={signInHandler} isLoading={isLoading} error={error} title="Logowanie" buttonTitle="Zaloguj się" requirePassword />
       <p className="form__message">
         Nie masz jeszcze konta? <Link to="/auth/signup">Załóż nowe konto</Link>
       </p>

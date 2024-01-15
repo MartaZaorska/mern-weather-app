@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { useUpdateProfileMutation } from '../app/apiUser';
+import { useUpdateProfileMutation, useDeleteProfileMutation } from '../app/apiUser';
 import { useDeleteLocationMutation } from '../app/apiLocation';
 
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -16,8 +16,9 @@ export function Component(){
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const [deleteLocation] = useDeleteLocationMutation();
+  const [deleteProfile] = useDeleteProfileMutation();
 
   const updateUserHandler = async (data) => {
     setError("");
@@ -36,7 +37,8 @@ export function Component(){
       dispatch(setUser({ ...res }));
       navigate("/");
     }catch(err){
-      setError("Nieprawidłowe dane");
+      const errorMessage = err?.data?.message || "Nieprawidłowe dane";
+      setError(errorMessage);
     }
   }
 
@@ -50,10 +52,21 @@ export function Component(){
     }
   }
 
+  const deleteUserProfile = async () => {
+    try {
+      await deleteProfile().unwrap();
+      const { logout } = await import("../app/appSlice");
+      dispatch(logout());
+    }catch(err){
+      window.alert(err);
+    }
+  }
+
   return (
     <section className="user">
       <div className="form__wrapper">
-        <Form submitHandler={updateUserHandler} withUsername withUnit data={user} error={error} title="Twoje konto" buttonTitle="Aktualizuj" />
+        <Form isLoading={isLoading} submitHandler={updateUserHandler} withUsername withUnit data={user} error={error} title="Twoje konto" buttonTitle="Aktualizuj" />
+        <button className="danger__button" onClick={deleteUserProfile}>Usuń konto</button>
       </div>
       {saveLocations.length > 0 && (
         <div className="user__location">

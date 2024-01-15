@@ -1,7 +1,17 @@
 import { useState, memo } from 'react';
 import { validateUserData } from '../utils';
 
-function Form({ title, buttonTitle, submitHandler, error, data = null, requirePassword = false, withUsername = false, withUnit = false }) {
+function Form({ 
+  isLoading, 
+  title, 
+  buttonTitle, 
+  submitHandler, 
+  error, 
+  data = null, 
+  requirePassword = false, 
+  withUsername = false, 
+  withUnit = false 
+}) {
   const [validationMessage, setValidationMessage] = useState(null);
 
   const preSubmitHandler = (e) => {
@@ -36,32 +46,32 @@ function Form({ title, buttonTitle, submitHandler, error, data = null, requirePa
         {withUsername && (
           <div className="input__control">
             <label htmlFor="username">Nazwa użytkownika: </label>
-            <input type="text" placeholder="Twoja nazwa..." id="username" name="username" defaultValue={data?.username || ""} />
-            {validationMessage?.username && <p>{validationMessage.username}</p>}
+            <input disabled={isLoading} type="text" placeholder="Twoja nazwa..." id="username" name="username" defaultValue={data?.username || ""} />
+            {validationMessage?.username && <p className='message'>{validationMessage.username}</p>}
           </div>
         )}
         <div className="input__control">
           <label htmlFor="email">E-mail: </label>
-          <input type="text" placeholder="Twój adres email..." id="email" name="email" defaultValue={data?.email || ""} />
-          {validationMessage?.email && <p>{validationMessage.email}</p>}
+          <input disabled={isLoading} type="text" placeholder="Twój adres email..." id="email" name="email" defaultValue={data?.email || ""} />
+          {validationMessage?.email && <p className='message'>{validationMessage.email}</p>}
         </div>
         <div className="input__control">
           <label htmlFor="password">Hasło: </label>
-          <input type="password" placeholder="Hasło..." id="password" name="password" />
-          {validationMessage?.password && <p>{validationMessage.password}</p>}
+          <input disabled={isLoading} type="password" placeholder="Hasło..." id="password" name="password" />
+          {validationMessage?.password && <p className='message'>{validationMessage.password}</p>}
         </div>
         {withUnit && (
           <div className="select__control">
             <label htmlFor="unit">Jednostka: </label>
-            <select id="unit" name="unit" defaultValue={data.unit}>
+            <select disabled={isLoading} id="unit" name="unit" defaultValue={data.unit}>
               <option value="metric">Metryczne</option>
               <option value="standard">Standardowe</option>
               <option value="imperial">Imperialne</option>
             </select>
           </div>
         )}
-        {!validationMessage && error && <p>{error}</p>}
-        <button type="submit">{buttonTitle}</button>
+        {!validationMessage && error && <p className='message'>{error}</p>}
+        <button disabled={isLoading} type="submit">{buttonTitle}</button>
       </form>
     </>
   )

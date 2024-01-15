@@ -25,8 +25,7 @@ function Search({ unit }) {
       const data = await res.json();
 
       if(data.length === 0){
-        window.alert("Brak lokalizacji");
-        return;
+        throw new Error(`Nie udało się znaleźć miejsca o nazwie "${query.split('=')[1]}"`);
       }
 
       const locationDetails = {
@@ -41,7 +40,7 @@ function Search({ unit }) {
 
       navigate('/weather', { state: { lat: locationDetails.lat, lon: locationDetails.lon, name: locationDetails.name, country: locationDetails.country }});
     }catch(err){
-      window.alert(err);
+      window.alert(`Nie udało się znaleźć miejsca o nazwie "${query.split('=')[1]}"`);
     }
   }
 

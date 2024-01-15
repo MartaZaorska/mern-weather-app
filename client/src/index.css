@@ -355,6 +355,7 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.7rem;
 }
 
 .location__list li button {

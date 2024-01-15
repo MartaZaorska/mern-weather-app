@@ -6,6 +6,7 @@ import { useUpdateProfileMutation, useDeleteProfileMutation } from '../app/apiUs
 import { useDeleteLocationMutation } from '../app/apiLocation';
 
 import { RiDeleteBinLine } from "react-icons/ri";
+import { COUNTRIES } from '../data/countries';
 
 import Form from '../components/Form';
 
@@ -48,7 +49,8 @@ export function Component(){
       const { deleteSaveLocation } = await import("../app/appSlice");
       dispatch(deleteSaveLocation(_id));
     }catch(err){
-      window.alert(err);
+      const errorMessage = err?.data?.message || "Coś poszło nie tak. Spróbuj ponownie później.";
+      window.alert(errorMessage);
     }
   }
 
@@ -58,7 +60,8 @@ export function Component(){
       const { logout } = await import("../app/appSlice");
       dispatch(logout());
     }catch(err){
-      window.alert(err);
+      const errorMessage = err?.data?.message || "Coś poszło nie tak. Spróbuj ponownie później.";
+      window.alert(errorMessage);
     }
   }
 
@@ -75,7 +78,7 @@ export function Component(){
           </header>
           <ul className="location__list">
             {saveLocations.map(item => (
-              <li key={item._id}><span>{item.name}</span> <button onClick={() => deleteLocationHandler(item)}><RiDeleteBinLine className="icon" /> Usuń</button></li>
+              <li key={item._id}><span>{item.name} ({COUNTRIES[item.country] || item.country})</span> <button onClick={() => deleteLocationHandler(item)}><RiDeleteBinLine className="icon" /> Usuń</button></li>
             ))}
           </ul>
         </div>

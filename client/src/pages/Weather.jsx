@@ -49,7 +49,8 @@ export function Component(){
         weather: { description: data.current?.weather?.[0]?.description, temp: data.current?.temp, icon: data.current?.weather?.[0]?.icon }
       }));
     }catch(err){
-      window.alert(err);
+      const errorMessage = err?.data?.message || "Coś poszło nie tak. Spróbuj ponownie później.";
+      window.alert(errorMessage);
     }
   }
 

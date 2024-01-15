@@ -21,7 +21,8 @@ function Header() {
       const { logout } = await import("../app/appSlice");
       dispatch(logout());
     }catch(err){
-      window.alert(err);
+      const errorMessage = err?.data?.message || "Coś poszło nie tak. Spróbuj ponownie później.";
+      window.alert(errorMessage);
     }
   }
 

@@ -1,6 +1,6 @@
 import api from './api';
 
-const LOCATION_URL = 'https://mern-weather-app-backend.vercel.app/api/location';
+const LOCATION_URL = 'http://localhost:5000/api/location';
 
 const apiLocation = api.injectEndpoints({
   endpoints: (builder) => ({

@@ -21,7 +21,7 @@ const app = express();
 
 //middlewares
 app.use(cors({
-  origin: 'https://mern-weather-app-client.vercel.app',
+  origin: 'http://localhost:5173',
   methods: ['GET', 'DELETE', 'POST', 'PUT'],
   credentials: true
 }));

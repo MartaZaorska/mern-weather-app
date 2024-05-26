@@ -1,6 +1,6 @@
 import api from './api';
 
-const USER_URL = 'https://mern-weather-app-backend.vercel.app/api/user';
+const USER_URL = 'http://localhost:5000/api/user';
 
 const apiUser = api.injectEndpoints({
   endpoints: (builder) => ({
